@@ -17,6 +17,8 @@ harddisk: create a virtual hard disk now
 5. the virtual mechine starts reading the image and asked the os installation and configuration. the instruction is more general so i skip those procedure here. simple google search will guide you to install and configure.
 
 
+After the above steps the virtual box image exported in the name of proserv kept into VBimg1
+
 ## after os installation to upto ssh installation
 
 1. after installing the os get into the os. and execute the first step.
@@ -58,6 +60,7 @@ username@serverhost$ sudo service ssh restart
 
 1. after completing with the above steps, i took a back up of the entire setup as VBimg2 
 
+/--------------------------mysql setup--------------------/ 
 ## Mysql setup 
 
 1. I have imported the VBimg2 and changed the name of virtual server from proserv to promysqldb 
@@ -222,4 +225,62 @@ to verify the user creaton and database
 username@serverhost$ mysql -u ladbadmin -p
 pwd: 
 ```
+
+To check the mysql service status
+```
+username@serverhost$ systemctl status mysql.service
+```
+
+
 after this the virtualbox image exported on the same name into the directory of VBimg4 
+
+/--------------------//mysql------------------------/
+
+# Application server configurration
+
+For this take up the VBimg2 and do the following 
+
+#### JDK installation
+
+1. start the server and login to it 
+2. to install jdk execute the following command
+
+```
+username@serverhost$ sudo apt install default-jdk
+pwd: 
+```
+
+
+after the installation complete we need to setup java HOME and PATH
+
+#### JAVA HOME and PATH configuration
+
+first need to find the java installed directory by executing the following command
+
+```
+username@serverhost$ whereis java
+
+it will point the default installed directory, or ls .bashrc to locate and immediately executing the following comand
+
+username@serverhost$ sudo nano .bashrc
+
+it will take it into the file. reach the last line and add a new line
+
+export JAVA_HOME=/usr
+export PATH=$JAVA_HOME/bin:$PATH
+
+```
+after performing this exit and come back and check the java home is set by executing 
+
+```
+username@serverhost$ $JAVA_HOME
+-bash: /usr: Is a directory
+```
+
+to check the version of java run the following command
+```
+username@serverhost$ java -version
+openJDK version "1.8.0_171"
+openJDK runtime environment ...
+openJDK 64-Bit Server VM ...
+```
