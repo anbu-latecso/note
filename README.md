@@ -1,2 +1,2 @@
-# [Introduction](note/docs/note-jsf/introduction.md)
+# [Introduction](../note-jsf/introduction.md)
 # [basic](introduction.md)
