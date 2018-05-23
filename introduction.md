@@ -367,6 +367,220 @@ completed the basic setup
 start the server 
 
 
+# INstall MongoDB
+
+follow the instruction to install mongo db https://www.digitalocean.com/community/tutorials/how-to-install-and-secure-mongodb-on-ubuntu-16-04
+
+## server setup
+
+to setup mongo db server, we need to add key to the repository
+
+### key add
+
+```
+username@serverhost:/$ sudo apt-key adv --keyserver hkp://keyserver.ubuntu.com:80 --recv 0C49F3730359A14518585931BC711F9BA15703C6
+
+```
+
+the oupt put will show like this 
+
+```
+Output
+Executing: /tmp/tmp.IdwenTia0s/gpg.1.sh --keyserver
+hkp://keyserver.ubuntu.com:80
+--recv
+0C49F3730359A14518585931BC711F9BA15703C6
+gpg: requesting key A15703C6 from hkp server keyserver.ubuntu.com
+gpg: key A15703C6: public key "MongoDB 3.4 Release Signing Key <packaging@mongodb.com>" imported
+gpg: Total number processed: 1
+gpg:               imported: 1  (RSA: 1)
+```
+### let the apt repository to know the location to download
+
+by creating list file the apt will get to know the place where to download
+
+```
+username@serverhost:/$  echo "deb [ arch=amd64,arm64 ] http://repo.mongodb.org/apt/ubuntu xenial/mongodb-org/3.6 multiverse" | sudo tee /etc/apt/sources.list.d/mongodb-org-3.6.list
+```
+then we need to update the package list by executing the following command
+
+```
+username@serverhost:/$ sudo apt-get update
+```
+To install mongo db meta package, executing the following command
+
+```
+username@serverhost:/$ sudo apt-get update
+```
+after installation, to check the version of installed package
+
+```
+username@serverhost:/$ mongod -version
+```
+
+to make the mongo db start use the following cmmand, by default mongo db is inactive
+
+```
+username@serverhost:/$ sudo systemctl start mongod
+```
+
+to check the service status 
+
+```
+username@serverhost:/$ sudo systemctl status mongod
+```
+
+#### Secure Mongo Db
+
+by default mongo db not secure, becase there is no root or admin user available
+
+we need to create an admin user to manage all database
+
+first get into mongo db using 
+
+```
+username@serverhost:/$ mongo
+
+```
+after getting into db, first create admin databse by executing 
+
+```
+> use admin
+
+```
+inside the first time admin db, creating user and pwd for admin databse by executing
+
+```
+> db.createUser({user:"admin", pwd:"ADMIN",roles:[{role:"userAdminAnyDatabase",db:"admin"}]})
+```
+
+```
+> exit
+
+```
+then exit from the database
+
+then to change the authendication mode in configuration file
+
+```
+username@serverhost:/$ sudo nano /lib/systemd/system/mongod.service
+
+
+inside the file read the line "ExecStart"
+
+ExecStart=/usr/bin/mongod --quiet --auth --config /etc/mongod.conf
+
+```
+save and exit
+
+then daemon reload the service by executing 
+
+```
+username@serverhost:/$ systemctl daemon-reload
+
+```
+
+then service restart
+
+```
+username@serverhost:/$ sudo service mongod restart
+
+```
+
+```
+username@serverhost:/$ sudo systemctl status mongod
+
+```
+
+## Chat Db creation
+
+first get into the admin databse
+
+```
+username@serverhost:/$ mongo -u admin -p ADMIN --authendicationDatabase admin
+
+```
+
+create a databse named "chat"
+
+```
+> use chat
+switched to db chat
+
+```
+create a user to admin this db 
+
+```
+> db.createUser({user:"exo",pwd:"exo",roles:[{role:"readWrite",db:"chat"}]})
+
+```
+```
+>exit
+
+```
+
+```
+username@serverhost:/$ mongo
+
+MongoDB shell version v3.6.5
+connecting to: mongodb://127.0.0.1:27017
+MongoDB server version: 3.6.5
+
+```
+
+stoped the server take the virtualbox image as proserv-1 kept into VBimg8
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+# Install libreoffice
+
+to install libreoffice 
+
+```
+username@serverhost:/$ sudo apt install libreoffice
+```
+
+to locate the libreoffice 
+
+```
+username@serverhost:/$ whereis libreoffice
+```
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
