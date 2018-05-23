@@ -165,40 +165,40 @@ it ask root user password after submiting it will enter into the root account
 #### 2. creating specific database for idm
 
 ```
-mysql> create database `la-idm_portal`;
+mysql> create database `dbnameidm`;
 ```
 #### 3. creating specific database for jcr
 
 ```
-mysql> create database `la-jcr_portal`;
+mysql> create database `dbnamejcr`;
 ```
 #### 4. creating specific database for jpa
 
 ```
-mysql> create database `la-jpa_portal`;
+mysql> create database `dbnamejpa`;
 ```
 
 #### 5. creating specific user to administer the database
 
 ```
-mysql> CREATE USER 'ladbadmin'@'localhost' IDENTIFIED BY 'ladbADMIN';
+mysql> CREATE USER 'dbuser'@'localhost' IDENTIFIED BY 'dbpwd';
 ```
 #### 6. permiting the user to admin the database 
 by executing following command
 ```
-mysql> GRANT ALL ON `la-idm_portal`.* TO 'ladbadmin'@'localhost' IDENTIFIED BY 'ladbADMIN'
+mysql> GRANT ALL ON `dbnameidm`.* TO 'dbuser'@'localhost' IDENTIFIED BY 'dbpwd'
 
-mysql> GRANT ALL ON `la-idm_portal`.* TO 'ladbadmin'@'192.168.%.%' IDENTIFIED BY 'ladbADMIN'
-
-
-mysql> GRANT ALL ON `la-jcr_portal`.* TO 'ladbadmin'@'localhost' IDENTIFIED BY 'ladbADMIN'
-
-mysql> GRANT ALL ON `la-jcr_portal`.* TO 'ladbadmin'@'192.168.%.%' IDENTIFIED BY 'ladbADMIN'
+mysql> GRANT ALL ON `dbnameidm`.* TO 'dbuser'@'192.168.%.%' IDENTIFIED BY 'dbpwd'
 
 
-mysql> GRANT ALL ON `la-jpa_portal`.* TO 'ladbadmin'@'localhost' IDENTIFIED BY 'ladbADMIN'
+mysql> GRANT ALL ON `dbnamejcr`.* TO 'dbuser'@'localhost' IDENTIFIED BY 'dbpwd'
 
-mysql> GRANT ALL ON `la-jpa_portal`.* TO 'ladbadmin'@'192.168.%.%' IDENTIFIED BY 'ladbADMIN'
+mysql> GRANT ALL ON `dbnamejcr`.* TO 'dbuser'@'192.168.%.%' IDENTIFIED BY 'dbpwd'
+
+
+mysql> GRANT ALL ON `dbnamejpa`.* TO 'dbuser'@'localhost' IDENTIFIED BY 'dbpwd'
+
+mysql> GRANT ALL ON `dbnamejpa`.* TO 'dbuser'@'192.168.%.%' IDENTIFIED BY 'dbpwd'
 ```
 
 after granting permission we need to flush the privellage by executing the following command
@@ -222,8 +222,8 @@ username@serverhost$ sudo service mysql restart
 to verify the user creaton and database 
 
 ```
-username@serverhost$ mysql -u ladbadmin -p
-pwd: 
+username@serverhost$ mysql -u dbuser -p
+pwd: dbpwd
 ```
 
 To check the mysql service status
@@ -284,3 +284,89 @@ openJDK version "1.8.0_171"
 openJDK runtime environment ...
 openJDK 64-Bit Server VM ...
 ```
+
+after these steps the virtualbox image exported in the name of proserv and kept it in VBimg5 directory
+
+# Application installation
+
+After done all the bove process, start the servers and ping with ip to check connectivity.
+
+#### Dirctory creation
+
+Take the tomcat standalone bundle extract it and name it "la-intranet" and keep it to home directory.
+to create dirctory in home directory
+
+```
+username@serverhost:/$ cd /home
+
+username@serverhost:/home$ sudo mkdir la-intranet
+```
+To check the directory is created 
+
+```
+username@serverhost:/home$ ls
+```
+set the permission to read and right files so that application will be copied and configuration can be done.
+
+to give permission to the directory, first come out from the directory
+
+```
+username@serverhost:/home$ cd /
+
+username@serverhost:/$ sudo chmod -R 777 /home/la-intranet
+
+username@serverhost:/$ cd home
+
+username@serverhost:/home$ ls
+
+```
+after performing this, the dircory colour will be turn from blue to green.
+
+use winscp or fillzilla to copy the application directory in to the la-intranet directory and again give above said permission to read and write it the files.
+
+# Configuration
+
+take up the application la.configuration file and do certain modification
+
+modification 1
+ - accountsetup.skip=true
+modification 2
+ 1. change the datasource line "JNDI Name for JCR datasource"
+ 1.1 datasource.name=java:/comp/env/ uncommend
+ modification 3
+ 1. change the datasource line "JNDI Name for IDM datasource"
+ 1.1 datasource.name=java:/comp/env/ uncommend
+ 
+ modification 4
+ 1. change the datasource line "JNDI Name for JPA datasource"
+ 1.1 datasource... uncommend
+
+save the modification
+
+next take up server.xml file and do the following 
+
+IDM Datasource for portal
+
+username="dbuser" password="dbpwd"
+url="jdbc:mysql://192.168.1.16:3306/dbnameidm?..."
+
+JCR Datasource for portal
+
+username="dbuser" password="dbpwd"
+url="jdbc:mysql://192.168.1.16:3306/dbnamejcr?..."
+
+JPA Datasource for portal
+
+username="dbuser" password="dbpwd"
+url="jdbc:mysql://192.168.1.16:3306/dbnamejpa?..."
+
+and the last step is to drop mysql-jdbc connector.jar file into lib folder. 
+
+completed the basic setup
+
+start the server 
+
+
+
+
+
