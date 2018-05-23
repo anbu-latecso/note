@@ -367,7 +367,7 @@ completed the basic setup
 start the server 
 
 
-# INstall MongoDB
+# Install MongoDB
 
 follow the instruction to install mongo db https://www.digitalocean.com/community/tutorials/how-to-install-and-secure-mongodb-on-ubuntu-16-04
 
@@ -423,7 +423,11 @@ to make the mongo db start use the following cmmand, by default mongo db is inac
 ```
 username@serverhost:/$ sudo systemctl start mongod
 ```
+or to make it start at server start up execute the following command, mongo server will up and running at the ubuntu server startup
 
+```
+username@serverhost:/$ sudo systemctl enable mongod
+```
 to check the service status 
 
 ```
@@ -528,26 +532,6 @@ MongoDB server version: 3.6.5
 
 ```
 
-stoped the server take the virtualbox image as proserv-1 kept into VBimg8
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 # Install libreoffice
 
 to install libreoffice 
@@ -561,6 +545,10 @@ to locate the libreoffice
 ```
 username@serverhost:/$ whereis libreoffice
 ```
+
+stoped the server take the virtualbox image as proserv-1 kept into VBimg8
+
+
 
 
 
