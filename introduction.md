@@ -446,6 +446,7 @@ first get into mongo db using
 username@serverhost:/$ mongo
 
 ```
+/-------------------------not used because admin use block the useage----------/
 after getting into db, first create admin databse by executing 
 
 ```
@@ -504,34 +505,25 @@ first get into the admin databse
 username@serverhost:/$ mongo -u admin -p ADMIN --authendicationDatabase admin
 
 ```
+/-------------------------// not used because admin use block the useage----------/
 
-create a databse named "chat"
+create a databse named "chatdb"
 
 ```
-> use chat
+> use chatdb
 switched to db chat
 
 ```
 create a user to admin this db 
 
 ```
-> db.createUser({user:"exo",pwd:"exo",roles:[{role:"readWrite",db:"chat"}]})
+> db.createUser({user:"chatdbadmin",pwd:"chatdbADMIN",roles:[{role:"readWrite",db:"chatdb"}]})
 
 ```
 ```
 >exit
 
 ```
-
-```
-username@serverhost:/$ mongo
-
-MongoDB shell version v3.6.5
-connecting to: mongodb://127.0.0.1:27017
-MongoDB server version: 3.6.5
-
-```
-
 # Install libreoffice
 
 to install libreoffice 
